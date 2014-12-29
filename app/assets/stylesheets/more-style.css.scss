@@ -21,3 +21,18 @@
     margin: 0;
   }
 }
+
+.form-inline-controls {
+  left: 30%;
+  position: absolute;
+  width: 70%;
+}
+
+.btn-flat {
+  border: none;
+  background: none;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+  text-align: center;
+}

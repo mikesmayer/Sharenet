@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= link_to 'ROOT', category_path(0), :class => 'ajax-content-link' %>
+        <% @category.ancestors().each do |ancestor| %>
+            / <%= link_to ancestor.name, category_path(ancestor.id), :class => 'ajax-content-link' %>
+        <% end %>
+        <% unless @category.is_locked %>
+            <%= link_to new_category_path(@category.id), :class => 'pull-right ajax-partial-link', :id => 'new-record' do %>
+                <i class="fa fa-plus fa-fw"></i> Add
+            <% end %>
+        <% end %>
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive1">
+          <table class="table table-striped table-bordered table-datatable" id="subcategories" ajax-for="<%= subcategories_json_path(@category.id) %>" ajax-data-columns="12" no-sortable="11">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Slug</th>
+
+              <!--th>Creator</th-->
+
+              <th title="Created at"><i class="fa fa-clock-o text-info"></i></th>
+
+              <th title="Created by"><i class="fa fa-user text-info"></i></th>
+              <th title="Parent category"><i class="fa fa-upload text-info"></i></th>
+              <th title="Children categories"><i class="fa fa-download text-info"></i></th>
+
+              <!--th>Subs</th-->
+
+              <th title="Is Public?"><i class="fa fa-folder-open text-info"></i></th>
+              <th title="Is Locked?"><i class="fa fa-unlock text-info"></i></th>
+              <th title="Is Trend?"><i class="fa fa-star-o text-info"></i></th>
+              <th title="Is Active?"><i class="fa  fa-check-square-o text-info"></i></th>
+
+              <th></th>
+            </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :bottom do %>
+    <script>
+        jQuery(function ($) {
+        });
+    </script>
+<% end %>

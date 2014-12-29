@@ -25,6 +25,11 @@ gem 'bootstrap-sass', '~>3.2.0'
 gem 'autoprefixer-rails'
 
 gem 'devise'
+
+gem 'jquery-datatables-rails'
+gem 'ajax-datatables-rails', '~> 0.2.1'
+gem 'kaminari'
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 

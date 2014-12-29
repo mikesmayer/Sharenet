@@ -1,0 +1,73 @@
+<%= form_for @category, :method => :post, :html => {:class=>'ajax-form'} do |f| %>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, :class => 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, :class => 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :slug %>
+        <%= f.text_field :slug, :class => 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.submit :class => 'btn btn-default' %>
+        <%= button_tag ' Reset ',:class => 'btn btn-default', :type => 'reset' %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.label 'Status' %>
+      <div class="form-group input-group">
+        <span class="input-group-addon">Parent</span>
+        <%= f.text_field :parent, :class => 'form-control', :value=>@category.parent_name, :disabled => true %>
+        <%= f.hidden_field :parent_id %>
+      </div>
+      <div class="form-group input-group">
+        <span class="input-group-addon">User&nbsp;&nbsp;&nbsp;</span>
+        <%= f.text_field :user_id, :class => 'form-control', :value=>@category.user_name, :disabled => true %>
+        <%= f.hidden_field :user_id %>
+      </div>
+      <div class="form-group">
+        <%= f.label :is_public %>
+        <label class="form-inline-controls">
+          <label class='radio-inline'><%= f.radio_button :is_public, TRUE %> YES</label>
+          <label class='radio-inline'><%= f.radio_button :is_public, FALSE %> NO</label>
+        </label>
+      </div>
+      <div class="form-group">
+        <%= f.label :is_locked %>
+        <label class="form-inline-controls">
+          <label class='radio-inline'><%= f.radio_button :is_locked, TRUE %> YES</label>
+          <label class='radio-inline'><%= f.radio_button :is_locked, FALSE %> NO</label>
+        </label>
+      </div>
+      <div class="form-group">
+        <%= f.label :is_trend %>
+        <label class="form-inline-controls">
+          <label class='radio-inline'><%= f.radio_button :is_trend, TRUE %> YES</label>
+          <label class='radio-inline'><%= f.radio_button :is_trend, FALSE %> NO</label>
+        </label>
+      </div>
+      <div class="form-group">
+        <%= f.label :is_active %>
+        <label class="form-inline-controls">
+          <label class='radio-inline'><%= f.radio_button :is_active, TRUE %> YES</label>
+          <label class='radio-inline'><%= f.radio_button :is_active, FALSE %> NO</label>
+        </label>
+      </div>
+    </div>
+<% end %>
+
+<script>
+  jQuery(function($) {
+      $('#category_name').stringToSlug({
+          setEvents: 'keyup keydown blur',
+          getPut: '#category_slug',
+          space: '-',
+          AND: 'and'
+      });
+  });
+</script>

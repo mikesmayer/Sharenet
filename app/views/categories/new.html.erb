@@ -1,0 +1,13 @@
+    <div class="panel panel-default for-form" id="partial-content">
+      <div class="panel-heading">
+        Create new category
+        <%= link_to '#', :class => 'pull-right partial-closer' do %>
+            <i class="fa fa-close fa-fw"></i> Cancel
+        <% end %>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <%= render :partial => 'categories/form' %>
+        </div>
+      </div>
+    </div>

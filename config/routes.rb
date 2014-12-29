@@ -7,6 +7,19 @@ Rails.application.routes.draw do
     get 'admins', :to => 'devise/registrations#edit'
   end
 
+  as :categories do
+    get   'categories' => 'categories#index',  :as => 'categories'
+    get   'categories/:id' => 'categories#index',  :as => 'category'
+    post  'categories/subcategories/:id' => 'categories#subcategories',  :as => 'subcategories_json'
+
+    get   'categories/new/:parent_id' => 'categories#new', :as => 'new_category'
+    post  'categories' => 'categories#create'
+
+    get  'categories/:id/edit' => 'categories#edit', :as => 'edit_category'
+    post 'categories/:id' => 'categories#update'
+
+    post 'categories/:id/delete' => 'categories#delete', :as => 'delete_category'
+  end
 
   #devise_for :users
   get 'welcome/index'

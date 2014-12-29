@@ -14,6 +14,8 @@ class CreateCategories < ActiveRecord::Migration
       t.boolean :is_leaf,         null: false,  default: false
       t.boolean :is_trend,        null: false,  default: false
       t.boolean :is_active,       null: false,  default: true
+
+      t.timestamps                null: false
     end
   end
 end

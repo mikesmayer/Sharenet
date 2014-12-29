@@ -241,9 +241,19 @@
         </div>
         <!-- /input-group -->
       </li>
+
+      <li>
+        <a href="#"><i class="fa fa-sitemap fa-fw"></i>Categories<span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+          <li><%= link_to 'Structured Categories', categories_path, :class => 'ajax-content-link' %></li>
+          <li><a href="#">All Categories</a></li>
+        </ul>
+      </li>
+
       <li>
         <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
       </li>
+
       <li>
         <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
