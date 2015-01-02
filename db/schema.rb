@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141229142255) do
+ActiveRecord::Schema.define(version: 20141230173737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,28 @@ ActiveRecord::Schema.define(version: 20141229142255) do
     t.boolean  "is_active",   default: true,  null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "post_types", force: true do |t|
+    t.string   "title",       default: "",   null: false
+    t.string   "description", default: "",   null: false
+    t.boolean  "is_active",   default: true, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "posts", force: true do |t|
+    t.integer  "user_id",     default: 0,    null: false
+    t.integer  "category_id", default: 0,    null: false
+    t.integer  "posttype_id", default: 0,    null: false
+    t.string   "title",       default: "",   null: false
+    t.string   "description", default: "",   null: false
+    t.string   "source"
+    t.string   "link"
+    t.boolean  "is_active",   default: true, null: false
+    t.integer  "view_count",  default: 0,    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

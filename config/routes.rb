@@ -9,16 +9,33 @@ Rails.application.routes.draw do
 
   as :categories do
     get   'categories' => 'categories#index',  :as => 'categories'
+    get   'categories/all' => 'categories#all',   :as => 'all_categories'
     get   'categories/:id' => 'categories#index',  :as => 'category'
     post  'categories/subcategories/:id' => 'categories#subcategories',  :as => 'subcategories_json'
+    post  'categories/subcategories' => 'categories#subcategories',  :as => 'all_categories_json'
 
     get   'categories/new/:parent_id' => 'categories#new', :as => 'new_category'
     post  'categories' => 'categories#create'
 
-    get  'categories/:id/edit' => 'categories#edit', :as => 'edit_category'
-    post 'categories/:id' => 'categories#update'
+    get   'categories/:id/edit' => 'categories#edit', :as => 'edit_category'
+    post  'categories/:id' => 'categories#update'
 
-    post 'categories/:id/delete' => 'categories#delete', :as => 'delete_category'
+    post  'categories/:id/delete' => 'categories#delete', :as => 'delete_category'
+
+    post  'categories/:id/status/:field' => 'categories#update_status', :as => 'update_category_status'
+  end
+
+  as :post_types do
+    get   'post_types'                  => 'post_types#index',    :as => 'post_types'
+    post  'post_types/all'              => 'post_types#json_all', :as => 'post_types_json'
+
+    get   'post_types/new'              => 'post_types#new',      :as => 'new_post_type'
+    post  'post_types'                  => 'post_types#create'
+
+    get   'post_types/:id'              => 'post_types#edit',     :as => 'post_type'
+    get   'post_types/:id/edit'         => 'post_types#edit',     :as => 'edit_post_type'
+    post  'post_types/:id'              => 'post_types#update'
+    post  'post_types/:id/status/:field'=> 'post_types#update_status', :as => 'update_post_type_status'
   end
 
   #devise_for :users

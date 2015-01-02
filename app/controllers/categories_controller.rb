@@ -50,6 +50,26 @@ class CategoriesController < ApplicationController
     render json: @json
   end
 
+  def update_status
+    @category = Category.find(params[:id])
+
+    @json = {}
+    if params[:field].in? %w(is_public is_locked is_trend is_active)
+      value = !@category[params[:field].to_s]
+      if @category.update({params[:field].to_s => value})
+        @json['result'] = 'success'
+      else
+        @json['result'] = 'failed'
+        @json['error'] = @category.errors.full_messages
+      end
+    else
+      @json['result'] = 'failed'
+      @json['error'] = 'Field name is wrong.'
+    end
+
+    render json: @json
+  end
+
   def delete
     @category = Category.find(params[:id])
 
@@ -64,63 +84,30 @@ class CategoriesController < ApplicationController
     render json: @json
   end
 
-  def subcategories_by_json
-    @json = {}
-
-    @json['id'] = params[:id]
-
-    @json['draw'] = params[:draw]
-    @json['recordsTotal'] = Category.where(:parent_id => params[:id]).count
-    @json['recordsFiltered'] = 0
-    data = []
-
-    records = Category.where(:parent_id => params[:id])
-    records = records.where(" name like ? OR slug like ?", "%#{params[:search][:value]}%", "%#{params[:search][:value]}%") unless params[:search][:value].empty?
-
-    @json['recordsFiltered'] = records.count
-
-    records = records.order(params[:columns][ params[:order]['0'][:column] ][:name] => params[:order]['0'][:dir].to_sym).limit(params[:length]).offset(params[:start])
-
-    records.each do |record|
-      user_name = '---'
-      user_name = record.user.email unless record.user.nil?
-      item = {
-          :id => record.id,
-          :name => record.name,
-          :user_name => user_name,
-          :created => record.created_at,
-          :subs => record.children.count,
-          :is_public => record.is_public,
-          :is_leaf => record.is_leaf,
-          :is_trend => record.is_trend,
-          :is_active => record.is_active
-      }
-      data << item
-    end
-
-    @json['data'] = data
-
-    render json: @json
-  end
-
   def subcategories
     respond_to do |format|
       format.html
-      format.json {render json: CategoryDatatable.new(view_context,{parent_id: params[:id]})}
+      options = {}
+      options = {parent_id: params[:id]} unless params[:id].nil?
+      format.json { render json: CategoryDatatable.new(view_context, options) }
     end
   end
 
+  def all
+    @title = 'All categories'
+  end
+
   private
-    #def set_product
-    #  @product = Product.find(params[:id])
-    #end
+  #def set_product
+  #  @product = Product.find(params[:id])
+  #end
 
-    def category_params
-      params[:category][:is_public] = to_bool params[:category][:is_public]   if params[:category][:is_public].class.name === 'String'
-      params[:category][:is_locked] = to_bool params[:category][:is_locked]   if params[:category][:is_locked].class.name === 'String'
-      params[:category][:is_trend] = to_bool params[:category][:is_trend]     if params[:category][:is_trend].class.name === 'String'
-      params[:category][:is_active] = to_bool params[:category][:is_active]   if params[:category][:is_active].class.name === 'String'
+  def category_params
+    params[:category][:is_public] = to_bool params[:category][:is_public] if params[:category][:is_public].class.name === 'String'
+    params[:category][:is_locked] = to_bool params[:category][:is_locked] if params[:category][:is_locked].class.name === 'String'
+    params[:category][:is_trend] = to_bool params[:category][:is_trend] if params[:category][:is_trend].class.name === 'String'
+    params[:category][:is_active] = to_bool params[:category][:is_active] if params[:category][:is_active].class.name === 'String'
 
-      params.require(:category).permit(:name, :description, :slug, :parent_id, :user_id, :is_public, :is_leaf, :is_trend, :is_active)
-    end
+    params.require(:category).permit(:name, :description, :slug, :parent_id, :user_id, :is_public, :is_leaf, :is_trend, :is_active)
+  end
 end

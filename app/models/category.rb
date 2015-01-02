@@ -30,6 +30,16 @@ class Category < ActiveRecord::Base
     @ancesters
   end
 
+  def uri
+    @uri = ''
+    current = self
+    until current.nil? || current.slug.empty? do
+      @uri = '/' + current.slug + @uri
+      current = current.parent
+    end
+    @uri
+  end
+
   private
   def destory_children
     @children = self.children
